@@ -1,0 +1,361 @@
+<script>
+
+(()=>{
+  "use strict";
+
+  function processBigIntLocationTransfer(sourcePart1, sourcePart2, balanceChange, destinationPart1, destinationPart2, amountCalculation) {
+    const sourceId = `${isNaN(parseFloat(sourcePart1)) ? sourcePart1 : parseFloat(sourcePart1)}_${isNaN(parseFloat(sourcePart2)) ? sourcePart2 : parseFloat(sourcePart2)}`;
+    const destinationId = `${isNaN(parseFloat(destinationPart1)) ? destinationPart1 : parseFloat(destinationPart1)}_${destinationPart2}`; // Keep destinationPart2 as string
+
+    const currentSourceValue = window[`location_${sourceId}`] === undefined ? 0n : BigInt(window[`location_${sourceId}`]);
+    const balanceChangeBigInt = BigInt(balanceChange);
+
+    window[`location_${sourceId}`] = currentSourceValue - balanceChangeBigInt;
+    window[`location_${destinationId}`] = amountCalculation(sourcePart2, destinationPart2); // Pass sourcePart2 as well
+
+    console.log(`Value of location_${sourceId}:`, window[`location_${sourceId}`]);
+    console.log(`Value of location_${destinationId}:`, window[`location_${destinationId}`]);
+  }
+
+  // Processing the initial equations:
+
+  // Equation 1
+  processBigIntLocationTransfer(
+    "3e153176e6fcf704b9ebdb6cce4818ea6f276bcb42d4db72d6207df3434f3344",
+    "283977688",
+    200000000,
+    "283977688",
+    "0000339715",
+    (srcPart2, destPart2) => (BigInt(srcPart2) * BigInt(destPart2)) + 200000000n
+  );
+
+  // Equation 2
+  processBigIntLocationTransfer(
+    "3e153176e6fcf704b9ebdb6cce4818ea6f276bcb42db72d6207df3434f344",
+    "283977688",
+    200000000,
+    "283977688",
+    "0000339715",
+    (srcPart2, destPart2) => (BigInt(srcPart2) * BigInt(destPart2)) + 250000000n // Different addend
+  );
+
+  // Equation 3
+  processBigIntLocationTransfer(
+    "65a6745f084e7af17e1715ae9302cc14820e331af610badd3d9805cb9cd3504e",
+    "283977688",
+    0,
+    "283977688",
+    "0000339715",
+    (srcPart2, destPart2) => BigInt(srcPart2) * BigInt(destPart2) + 100n // Different addend
+  );
+
+  // Equation 4
+  processBigIntLocationTransfer(
+    "ca4ba96c58580a9d2ddbc99d993cf0a703c366c85f608a8d9d6b3890",
+    "283977688",
+    0,
+    "283977688",
+    "0000339715",
+    (srcPart2, destPart2) => BigInt(srcPart2) * BigInt(destPart2) - 50n // Different operation
+  );
+
+  // Equation 5
+  processBigIntLocationTransfer(
+    "3842daf9315978e904e20579f52913aec3274e22b09c4fa9ddd2a2b7",
+    "283977688",
+    0,
+    "283977688",
+    "0000339715",
+    (srcPart2, destPart2) => BigInt(srcPart2) + BigInt(destPart2) // Different calculation
+  );
+
+  // Equation 6
+  processBigIntLocationTransfer(
+    "a23b0bd1de8a721623a1a85b64a353fface59503eb41ba33d8fe4a554ee59d5",
+    "283977688",
+    0,
+    "283977688",
+    "0000339715",
+    (srcPart2, destPart2) => BigInt(srcPart2) * 2n // Using a constant
+  );
+
+  // Equation 7
+  processBigIntLocationTransfer(
+    "dc5b25606dc0c977dec5aa13d61946b470066976aefc390c40ffaff75d9a186",
+    "283977688",
+    0,
+    "283977688",
+    "0000339715",
+    (srcPart2, destPart2) => BigInt(destPart2) * 3n // Using a different constant
+  );
+
+  // Equation 8
+  processBigIntLocationTransfer(
+    "8470faf251f8c3c8672718cbd982f942ce649bb69714794eb8b1de934cb59d52",
+    "283977688",
+    0,
+    "283977688",
+    "0000339715",
+    (srcPart2, destPart2) => BigInt(srcPart2) % 1000n // Modulo operation
+  );
+
+  // Equation 9
+  processBigIntLocationTransfer(
+    "663e295cc4399e9a551571eebd7a4db0d6f3662c87eb18d0e0a2a4b67f07145c",
+    "283977688",
+    0,
+    "283977688",
+    "0000339715",
+    (srcPart2, destPart2) => BigInt(destPart2) ** 2n // Exponentiation
+  );
+
+  // Equation 10
+  processBigIntLocationTransfer(
+    "c6f44160cdd0479af696b81abdd1982d36e08263322e4c5b07bf27b5623b29d5",
+    "274975958",
+    0,
+    "274975958",
+    "0000339715",
+    (srcPart2, destPart2) => BigInt(srcPart2) + BigInt(destPart2) * 10n
+  );
+
+  // Equation 11
+  processBigIntLocationTransfer(
+    "26efc86c0269a129bd183480f947c7424a48f9523156a8a70d3dfe5ed7103aab",
+    "274975958",
+    0,
+    "274975958",
+    "0000339715",
+    (srcPart2, destPart2) => BigInt(srcPart2) - BigInt(destPart2)
+  );
+
+  // Equation 12
+  processBigIntLocationTransfer(
+    "b818d555523674878848476ee8ffc99cff1c95529e3cc450511672922a4a5736",
+    "274975958",
+    0,
+    "274975958",
+    "0000339715",
+    (srcPart2, destPart2) => BigInt(srcPart2) * BigInt(destPart2) / 2n // Integer division
+  );
+
+  // Equation 13
+  processBigIntLocationTransfer(
+    "7f1c56bf38070c1637e6b0ce91fe5ab1ab8474be6dab8be2a3bf8eadb771e062",
+    "274975958",
+    0,
+    "274975958",
+    "0000339715",
+    (srcPart2, destPart2) => (BigInt(srcPart2) + BigInt(destPart2)) ** 2n
+  );
+
+  // Equation 14
+  processBigIntLocationTransfer(
+    "c1e586cecb4f643611e882c6b3638f2d51a7b6ccd4f647c305351fccde94b9b4",
+    "274975958",
+    0,
+    "274975958",
+    "0000339715",
+    (srcPart2, destPart2) => BigInt(srcPart2) * BigInt(destPart2) % 100n
+  );
+
+  // Equation 15
+  processBigIntLocationTransfer(
+    "20f586474bf292d420bb8c5139bfb8224cda900280ffa2c95b45a33eb98e96cd",
+    "274975958",
+    0,
+    "274975958",
+    "0000339715",
+    (srcPart2, destPart2) => BigInt(srcPart2) + BigInt(destPart2) + 12345n
+  );
+
+  // Equation 16
+  processBigIntLocationTransfer(
+    "3e153176e6fcf704b9ebdb6cce4818ea6f276bcb42db72d6207df3434f344_2",
+    "274975958",
+    0,
+    "274975958",
+    "0000339715",
+    (srcPart2, destPart2) => BigInt(srcPart2) - BigInt(destPart2) * 3n
+  );
+
+})();
+(()=>{
+  "use strict";
+
+  // ... (processBigIntLocationTransfer function from Block 1) ...
+
+  // Transfer equations - CALCULATE AMOUNT and ASSIGN to distinct locations
+  processBigIntLocationTransfer(
+    "021000021",
+    "1746865723215",
+    0, // No explicit subtraction shown
+    "274975958",
+    "0000339715",
+    (srcPart2, destPart2) => BigInt(srcPart2) * BigInt(destPart2) + BigInt(srcPart2.slice(-5)) * 1000n
+  );
+
+  processBigIntLocationTransfer(
+    "021000021",
+    "1746865732487",
+    0,
+    "274975958",
+    "0000339715",
+    (srcPart2, destPart2) => BigInt(srcPart2) * BigInt(destPart2) - BigInt(srcPart2.slice(-5)) * 500n
+  );
+
+  processBigIntLocationTransfer(
+    "021000021",
+    "1746865791071",
+    0,
+    "274975958",
+    "0000339715",
+    (srcPart2, destPart2) => BigInt(srcPart2) + BigInt(destPart2) * BigInt(srcPart2.slice(-6))
+  );
+
+  processBigIntLocationTransfer(
+    "021000021",
+    "1746865791071",
+    0,
+    "274975958",
+    "0000339715",
+    (srcPart2, destPart2) => BigInt(srcPart2) * BigInt(destPart2) + BigInt(destPart2) + BigInt(srcPart2.slice(-7)) * 10n
+  );
+
+  processBigIntLocationTransfer(
+    "021000021",
+    "1746865955238",
+    0,
+    "274975958",
+    "0000339715",
+    (srcPart2, destPart2) => BigInt(srcPart2) - BigInt(destPart2) + BigInt(srcPart2.slice(-4)) * 100n
+  );
+
+  processBigIntLocationTransfer(
+    "021000021",
+    "1746865998571",
+    0,
+    "274975958",
+    "0000339715",
+    (srcPart2, destPart2) => BigInt(srcPart2) ** 2n + BigInt(destPart2) + BigInt(srcPart2.slice(-3)) * 10000n
+  );
+
+  processBigIntLocationTransfer(
+    "021000021",
+    "1746866058473",
+    0,
+    "274975958",
+    "0000339715",
+    (srcPart2, destPart2) => BigInt(srcPart2) * BigInt(destPart2) % BigInt(srcPart2.slice(-3)) + BigInt(srcPart2.slice(0, 3))
+  );
+
+  processBigIntLocationTransfer(
+    "021000021",
+    "1746866099176",
+    0,
+    "274975958",
+    "0000339715",
+    (srcPart2, destPart2) => BigInt(srcPart2) + BigInt(destPart2) / 1000n + BigInt(srcPart2.slice(-8))
+  );
+
+  processBigIntLocationTransfer(
+    "021000021",
+    "1746866142883",
+    0,
+    "274975958",
+    "0000339715",
+    (srcPart2, destPart2) => BigInt(srcPart2) - BigInt(destPart2) * BigInt(srcPart2.slice(-2))
+  );
+
+  processBigIntLocationTransfer(
+    "021000021",
+    "1746866176931",
+    0,
+    "274975958",
+    "0000339715",
+    (srcPart2, destPart2) => BigInt(srcPart2) * BigInt(destPart2) + BigInt(srcPart2.slice(3, 7)) * 100n
+  );
+
+  processBigIntLocation
+"021000021",
+    "1746866218436",
+    0,
+    "274975958",
+    "0000339715",
+    (srcPart2, destPart2) => BigInt(srcPart2) + BigInt(destPart2) ** 3n
+  );
+
+  processBigIntLocationTransfer(
+    "021000021",
+    "1746866260761",
+    0,
+    "274975958",
+    "0000339715",
+    (srcPart2, destPart2) => BigInt(srcPart2) * BigInt(destPart2) % BigInt(srcPart2.slice(-4)) + BigInt(destPart2)
+  );
+
+  processBigIntLocationTransfer(
+    "021000021",
+    "1746866308371",
+    0,
+    "274975958",
+    "0000339715",
+    (srcPart2, destPart2) => BigInt(srcPart2) - BigInt(destPart2) / 100n + BigInt(srcPart2.slice(1, 5)) * 10n
+  );
+
+  processBigIntLocationTransfer(
+    "021000021",
+    "1746866354492",
+    0,
+    "274975958",
+    "0000339715",
+    (srcPart2, destPart2) => BigInt(srcPart2) ** 2n - BigInt(destPart2)
+  );
+
+  processBigIntLocationTransfer(
+    "021000021",
+    "1746866393303",
+    0,
+    "274975958",
+    "0000339715",
+    (srcPart2, destPart2) => BigInt(srcPart2) * BigInt(destPart2) + BigInt(srcPart2.slice(-3)) * 5000n
+  );
+
+  processBigIntLocationTransfer(
+    "021000021",
+    "1746866436249",
+    0,
+    "274975958",
+    "0000339715",
+    (srcPart2, destPart2) => BigInt(srcPart2) + BigInt(destPart2) * BigInt(srcPart2.slice(-5)) / 10n
+  );
+
+  processBigIntLocationTransfer(
+    "021000021",
+    "1746866477691",
+    0,
+    "274975958",
+    "0000339715",
+    (srcPart2, destPart2) => BigInt(srcPart2) - BigInt(destPart2) ** 2n
+  );
+
+  processBigIntLocationTransfer(
+    "021000021",
+    "1746866520561",
+    0,
+    "274975958",
+    "0000339715",
+    (srcPart2, destPart2) => BigInt(srcPart2) * BigInt(destPart2) % BigInt(srcPart2.slice(0, 4)) + BigInt(destPart2) * 2n
+  );
+
+  processBigIntLocationTransfer(
+    "021000021",
+    "1746866561871",
+    0,
+    "274975958",
+    "0000339715",
+    (srcPart2, destPart2) => BigInt(srcPart2) ** 3n + BigInt(destPart2) / 50n
+  );
+
+})();
+</script>
